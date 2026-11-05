@@ -1,0 +1,555 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>عالم آيسل</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=Playpen+Sans+Arabic:wght@300;500;700&display=swap">
+<style>
+  /* Layout: a pastel nursery page. Bunting on top, hero with balloon clusters, an animated notebook, a birth-day counter with duas, and an album button. Balloons and confetti drift behind everything. */
+  :root {
+    --bg: #fff3f8;
+    --bg-2: #f6ecff;
+    --pink: #f06aa6;
+    --pink-deep: #e0197d;
+    --blush: #ffd3e6;
+    --lilac: #e4d6ff;
+    --sky: #d7e8ff;
+    --mint: #c9f1e1;
+    --butter: #fff1b5;
+    --ink: #6a2347;
+    --ink-soft: #a0527a;
+    --paper: #fffdfa;
+    --line: #f6c2d8;
+    --display: "Baloo Bhaijaan 2", "Cairo", "Tahoma", system-ui, sans-serif;
+    --body: "Playpen Sans Arabic", "Cairo", "Tahoma", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    position: relative;
+    direction: rtl;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(255,255,255,.9) 0 2px, transparent 3px) 0 0 / 34px 34px,
+      linear-gradient(180deg, var(--bg) 0%, #ffe8f1 45%, var(--bg-2) 100%);
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  :focus-visible { outline: 3px solid var(--pink-deep); outline-offset: 3px; border-radius: 10px; }
+
+  /* floating decoration */
+  #fx { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .balloon {
+    position: absolute; left: var(--x); bottom: -30vh;
+    width: var(--s); height: calc(var(--s) * 1.22);
+    border-radius: 50% 50% 47% 47% / 56% 56% 44% 44%;
+    background: radial-gradient(ellipse at 32% 26%, rgba(255,255,255,.85) 0 9%, transparent 10%), var(--c);
+    opacity: .55;
+    animation: rise var(--d) linear var(--delay) infinite;
+  }
+  .balloon::after { content: ""; position: absolute; left: 50%; bottom: -6px; width: 10px; height: 8px; background: var(--c); clip-path: polygon(50% 0, 0 100%, 100% 100%); transform: translateX(-50%); }
+  .balloon::before { content: ""; position: absolute; left: 50%; top: 100%; width: 1.5px; height: 64px; margin-top: 2px; background: rgba(160, 82, 122, .45); }
+  .confetti {
+    position: absolute; top: -20px; left: var(--x); width: 8px; height: 13px; border-radius: 2px;
+    background: var(--c); opacity: .75;
+    animation: fall var(--d) linear var(--delay) infinite;
+  }
+  @keyframes rise {
+    0% { transform: translate(0, 0) rotate(-4deg); }
+    25% { transform: translate(16px, -36vh) rotate(3deg); }
+    50% { transform: translate(-10px, -72vh) rotate(-3deg); }
+    75% { transform: translate(14px, -108vh) rotate(3deg); }
+    100% { transform: translate(0, -150vh) rotate(-4deg); }
+  }
+  @keyframes fall {
+    0% { transform: translate(0, 0) rotate(0); }
+    50% { transform: translate(20px, 55vh) rotate(260deg); }
+    100% { transform: translate(-10px, 112vh) rotate(540deg); }
+  }
+
+  .bunting { position: absolute; top: 0; left: 0; width: 100%; height: 110px; z-index: 2; pointer-events: none; overflow: hidden; }
+  .bunting svg { display: block; transform-origin: 50% 0; animation: sway 5s ease-in-out infinite; }
+  @keyframes sway { 0%, 100% { transform: rotate(-.4deg); } 50% { transform: rotate(.4deg); } }
+
+  .page {
+    position: relative; z-index: 1; overflow-x: clip;
+    padding-block: 84px 48px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: flex; flex-direction: column; align-items: center; gap: 64px;
+  }
+  .page > section { width: 100%; max-width: 560px; min-width: 0; }
+
+  .eyebrow {
+    display: inline-block; margin: 0; padding: 4px 18px;
+    background: #fff; border-radius: 999px; color: var(--pink-deep);
+    font: 700 15px/1.6 var(--display);
+    box-shadow: 0 3px 0 var(--blush);
+  }
+  .sec-title { margin: 0; font: 800 clamp(26px, 7vw, 34px)/1.3 var(--display); color: var(--pink-deep); text-wrap: balance; }
+
+  /* hero */
+  .hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .hero-art { position: relative; width: min(100%, 440px); }
+  .hero-art > img { display: block; width: 100%; height: auto; animation: bob 4.5s ease-in-out infinite; }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .cluster { position: absolute; top: -2%; width: 25%; height: auto; aspect-ratio: 120 / 190; animation: floaty 4s ease-in-out infinite; }
+  .cl-l { left: -4%; }
+  .cl-r { right: -4%; transform: scaleX(-1); animation-delay: -2s; }
+  @keyframes floaty { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+  .hero-sub { margin: 0; font: 500 18px/1.7 var(--body); color: var(--ink); text-wrap: balance; }
+
+  /* notebook */
+  .nb { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+  .book { position: relative; width: min(100%, 420px); direction: ltr; perspective: 1500px; margin-top: 6px; }
+  .book[data-state="closed"] { animation: wiggle 1.8s ease-in-out infinite; }
+  @keyframes wiggle { 0%, 100% { rotate: 0deg; } 25% { rotate: -1.4deg; } 75% { rotate: 1.4deg; } }
+
+  .paper {
+    direction: rtl; position: relative; text-align: start;
+    padding: 24px 46px 20px 24px;
+    background: var(--paper);
+    border-radius: 18px 10px 10px 18px;
+    box-shadow: -5px 6px 0 -1px #ffe6f0, -9px 11px 0 -2px var(--blush), 0 24px 30px -14px rgba(190, 40, 110, .4);
+  }
+  .tape { position: absolute; top: -11px; left: 50%; width: 96px; height: 24px; translate: -50% 0; rotate: -3deg; background: repeating-linear-gradient(45deg, rgba(240,106,166,.55) 0 8px, rgba(255,255,255,.7) 8px 16px); border-radius: 3px; }
+  .paper-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 6px; }
+  .paper-head h3 { margin: 0; font: 800 22px/1.3 var(--display); color: var(--pink-deep); }
+  .paper-head p { margin: 0; font-size: 13px; color: var(--ink-soft); }
+  .sticker {
+    flex: none; width: 74px; height: 74px; border-radius: 50%; border: 4px solid #fff; rotate: -8deg;
+    background: var(--blush) url("img/girl.webp") 53% 25.6% / 280% auto no-repeat;
+    box-shadow: 0 6px 12px -4px rgba(190, 40, 110, .5);
+  }
+  .rows { list-style: none; margin: 8px 0 0; padding: 0; }
+  .row {
+    display: grid; grid-template-columns: 104px minmax(0, 1fr); align-items: center; gap: 8px;
+    min-height: 48px; border-bottom: 2px dashed var(--line);
+  }
+  .row:last-child { border-bottom: 0; }
+  .row dt { margin: 0; display: flex; align-items: center; gap: 6px; font: 700 15px/1.3 var(--display); color: var(--pink-deep); }
+  .row dt::before {
+    content: ""; flex: none; width: 13px; height: 12px; background: var(--pink);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath d='M12 21C4 14.5 1 11 1 7.2 1 4 3.4 1.6 6.4 1.6c2.2 0 4.4 1.2 5.6 3.4 1.2-2.2 3.4-3.4 5.6-3.4C20.6 1.6 23 4 23 7.2 23 11 20 14.5 12 21z'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath d='M12 21C4 14.5 1 11 1 7.2 1 4 3.4 1.6 6.4 1.6c2.2 0 4.4 1.2 5.6 3.4 1.2-2.2 3.4-3.4 5.6-3.4C20.6 1.6 23 4 23 7.2 23 11 20 14.5 12 21z'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .row dd { margin: 0; font: 700 18px/1.4 var(--body); color: var(--ink); overflow-wrap: anywhere; }
+  .row dd.big { font: 800 26px/1.2 var(--display); color: var(--pink-deep); }
+  .row dd.soon { color: var(--pink); }
+  .row dd.soon::after { content: "✦"; display: inline-block; margin-inline-start: 6px; font-size: 14px; animation: twinkle 1.6s ease-in-out infinite; }
+  @keyframes twinkle { 0%, 100% { opacity: .3; scale: .7; } 50% { opacity: 1; scale: 1.2; } }
+
+  .book[data-state="open"] .row {
+    animation: write .75s cubic-bezier(.2, .8, .2, 1) both;
+    animation-delay: calc(.9s + var(--i) * .24s);
+  }
+  @keyframes write {
+    from { opacity: 0; transform: translateY(8px); clip-path: inset(0 0 0 100%); }
+    to { opacity: 1; transform: none; clip-path: inset(0); }
+  }
+
+  .cover {
+    position: absolute; inset: 0; padding: 0; border: 0; cursor: pointer; direction: rtl;
+    border-radius: 18px 10px 10px 18px;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(255,255,255,.3) 0 3px, transparent 4px) 0 0 / 26px 26px,
+      linear-gradient(160deg, #f88fbb, #ec5b9d);
+    box-shadow: 0 22px 30px -12px rgba(190, 40, 110, .55), inset 0 0 0 7px rgba(255,255,255,.35);
+    display: grid; place-items: center; color: #fff;
+    transform-origin: 100% 50%;
+    transition: transform 1.1s cubic-bezier(.55, .05, .25, 1), opacity .5s ease, visibility 0s linear 1.1s;
+    z-index: 3;
+  }
+  .book[data-state="closed"] .cover { transform: none; opacity: 1; visibility: visible; transition-delay: 0s, 0s, 0s; }
+  .book[data-state="open"] .cover { transform: rotateY(100deg); opacity: 0; visibility: hidden; pointer-events: none; transition-delay: 0s, .55s, 1.1s; }
+  .cover-label { width: 76%; padding: 14px 16px 12px; background: var(--paper); border-radius: 28px; box-shadow: 0 8px 0 rgba(255,255,255,.35); text-align: center; }
+  .cover-label small { display: block; font: 700 16px/1.4 var(--display); color: var(--pink-deep); }
+  .cover-label img { display: block; width: 100%; height: auto; }
+  .cover-hint { position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; font: 700 15px/1.4 var(--display); color: #fff; }
+
+  .rings { position: absolute; right: -10px; top: 22px; bottom: 22px; display: flex; flex-direction: column; justify-content: space-between; z-index: 4; pointer-events: none; }
+  .ring { width: 34px; height: 12px; border-radius: 8px; background: linear-gradient(180deg, #fff, #dcaec7 55%, #b97a9e); box-shadow: 0 2px 3px rgba(106, 35, 71, .3); }
+
+  .pill {
+    font: 700 16px/1.4 var(--display); color: var(--pink-deep); background: #fff; cursor: pointer;
+    border: 0; border-radius: 999px; padding: 8px 22px; box-shadow: 0 4px 0 var(--blush);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .pill:hover { transform: translateY(-1px); }
+  .pill:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--blush); }
+
+  /* birth day + counter */
+  .born { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .born-date { margin: 0; font: 800 clamp(26px, 7.5vw, 36px)/1.35 var(--display); color: var(--ink); text-wrap: balance; }
+  .born-date.soon { color: var(--pink); }
+  .counter {
+    width: 100%; margin-top: 6px; padding: 22px 14px 16px;
+    background: #fff; border: 3px solid var(--blush); border-radius: 30px;
+    box-shadow: 0 10px 0 -2px var(--blush), 0 26px 30px -16px rgba(190, 40, 110, .4);
+    position: relative;
+  }
+  .counter-title { position: absolute; top: -17px; left: 50%; translate: -50% 0; margin: 0; white-space: nowrap; padding: 3px 20px; border-radius: 999px; background: var(--pink); color: #fff; font: 700 16px/1.6 var(--display); }
+  .ticks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 6px 0 0; padding: 0; list-style: none; }
+  .tick { background: var(--t); border-radius: 18px; padding: 10px 2px 8px; box-shadow: inset 0 2px 0 rgba(255,255,255,.75), 0 4px 0 rgba(106, 35, 71, .1); }
+  .tick b { display: block; font: 800 clamp(26px, 8.4vw, 40px)/1.15 var(--display); color: var(--ink); font-variant-numeric: tabular-nums; }
+  .tick span { font-size: 13px; color: var(--ink-soft); font-weight: 700; }
+  .tick.pop b { animation: pop .45s ease; }
+  @keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.18); } 100% { transform: scale(1); } }
+  .counter-note { margin: 14px 4px 0; font-size: 15px; color: var(--ink-soft); text-wrap: balance; }
+  .counter-total { margin: 2px 0 0; font: 700 15px/1.6 var(--display); color: var(--pink-deep); }
+
+  .setbirth { margin-top: 2px; font-size: 14px; color: var(--ink-soft); }
+  .setbirth summary { cursor: pointer; list-style: none; text-decoration: underline dotted; text-underline-offset: 4px; }
+  .setbirth summary::-webkit-details-marker { display: none; }
+  .setbirth-body { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; margin-top: 10px; }
+  .setbirth input { font: 500 15px var(--body); color: var(--ink); background: #fff; border: 2px solid var(--blush); border-radius: 12px; padding: 6px 10px; max-width: 100%; }
+  .setbirth .pill { font-size: 14px; padding: 5px 16px; }
+
+  /* duas */
+  .duas { display: flex; flex-direction: column; gap: 14px; text-align: center; }
+  .dua-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .dua {
+    margin: 0; padding: 14px 18px; background: var(--c); border-radius: 22px; font: 500 17px/1.9 var(--body); color: var(--ink);
+    box-shadow: 0 4px 0 rgba(106, 35, 71, .09); text-wrap: balance;
+  }
+  .dua:nth-child(odd) { rotate: -.8deg; }
+  .dua:nth-child(even) { rotate: .8deg; }
+  .amen { margin: 4px 0 0; font: 800 clamp(26px, 7vw, 32px)/1.4 var(--display); color: var(--pink-deep); }
+
+  /* album */
+  .album { display: flex; justify-content: center; }
+  .album-btn {
+    display: flex; align-items: center; gap: 20px; width: 100%; padding: 18px 22px; cursor: pointer; text-align: start;
+    background: #fff; border: 3px solid var(--blush); border-radius: 28px; color: var(--ink); font-family: var(--body);
+    box-shadow: 0 8px 0 -1px var(--blush), 0 24px 28px -16px rgba(190, 40, 110, .4);
+    transition: transform .2s ease;
+  }
+  .album-btn:hover { transform: translateY(-3px) rotate(-.5deg); }
+  .album-btn b { display: block; font: 800 28px/1.3 var(--display); color: var(--pink-deep); }
+  .album-btn small { font-size: 15px; color: var(--ink-soft); }
+  .frames { position: relative; flex: none; width: 104px; height: 96px; }
+  .fr { position: absolute; width: 62px; height: 76px; background: #fff; border-radius: 6px; box-shadow: 0 4px 10px -2px rgba(106, 35, 71, .35); }
+  .fr::before { content: ""; position: absolute; inset: 6px 6px 22px; border-radius: 3px; background: var(--c); }
+  .f1 { right: 0; top: 10px; rotate: 10deg; --c: var(--lilac); }
+  .f2 { right: 22px; top: 4px; rotate: -4deg; --c: var(--butter); }
+  .f3 { right: 40px; top: 14px; rotate: -14deg; --c: var(--blush); }
+
+  .modal {
+    position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
+    padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background: rgba(106, 35, 71, .4); backdrop-filter: blur(4px); overflow-y: auto;
+  }
+  .modal-card {
+    position: relative; width: min(100%, 440px); padding: 28px 22px 24px; text-align: center;
+    background: var(--paper); border: 4px solid var(--blush); border-radius: 30px;
+    box-shadow: 0 30px 50px -20px rgba(106, 35, 71, .6);
+    animation: modalIn .45s cubic-bezier(.2, 1.3, .4, 1) both;
+  }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(24px) scale(.9); } to { opacity: 1; transform: none; } }
+  .modal-card h3 { margin: 0 0 12px; font: 800 30px/1.3 var(--display); color: var(--pink-deep); }
+  .modal-card p { margin: 14px 0 0; font-size: 17px; line-height: 1.9; text-wrap: balance; }
+  .x { position: absolute; top: 10px; left: 12px; width: 38px; height: 38px; border: 0; border-radius: 50%; background: var(--blush); color: var(--pink-deep); font: 800 22px/1 var(--display); cursor: pointer; }
+  .polas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .pola { background: #fff; padding: 7px 7px 4px; border-radius: 8px; box-shadow: 0 6px 12px -4px rgba(106, 35, 71, .35); }
+  .pola:nth-child(1) { rotate: -4deg; }
+  .pola:nth-child(2) { rotate: 2deg; translate: 0 6px; }
+  .pola:nth-child(3) { rotate: -2deg; }
+  .pola i { display: grid; place-items: center; aspect-ratio: 1 / 1.1; border-radius: 4px; background: var(--c); }
+  .pola svg { width: 28px; height: 26px; fill: #fff; }
+  .pola span { display: block; margin-top: 3px; font: 700 12px/1.5 var(--display); color: var(--ink-soft); }
+
+  .foot { text-align: center; font-size: 15px; color: var(--ink-soft); }
+  .foot b { font: 800 18px/1.6 var(--display); color: var(--pink-deep); }
+
+  @media (max-width: 420px) {
+    .row { grid-template-columns: 96px minmax(0, 1fr); }
+    .paper { padding: 22px 42px 18px 18px; }
+    .album-btn { gap: 12px; padding: 16px; }
+    .album-btn b { font-size: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+    .balloon { bottom: auto; top: var(--top); }
+    .confetti { top: var(--top); }
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="heart" viewBox="0 0 24 22"><path d="M12 21C4 14.5 1 11 1 7.2 1 4 3.4 1.6 6.4 1.6c2.2 0 4.4 1.2 5.6 3.4 1.2-2.2 3.4-3.4 5.6-3.4C20.6 1.6 23 4 23 7.2 23 11 20 14.5 12 21z"/></symbol>
+  <symbol id="cluster" viewBox="0 0 120 190">
+    <g fill="none" stroke="#b9779c" stroke-width="1.6" stroke-linecap="round">
+      <path d="M34 111C40 140 52 160 60 188"/>
+      <path d="M64 83C62 120 60 150 60 188"/>
+      <path d="M90 113C84 140 68 160 60 188"/>
+    </g>
+    <ellipse cx="34" cy="78" rx="27" ry="33" fill="#ff9cc6"/>
+    <ellipse cx="64" cy="50" rx="27" ry="33" fill="#c8b2ff"/>
+    <ellipse cx="90" cy="80" rx="27" ry="33" fill="#9be3c7"/>
+    <path d="M30 110h8l-4 7z" fill="#ff9cc6"/><path d="M60 82h8l-4 7z" fill="#c8b2ff"/><path d="M86 112h8l-4 7z" fill="#9be3c7"/>
+    <ellipse cx="25" cy="64" rx="6" ry="9" fill="#fff" opacity=".7" transform="rotate(20 25 64)"/>
+    <ellipse cx="55" cy="36" rx="6" ry="9" fill="#fff" opacity=".7" transform="rotate(20 55 36)"/>
+    <ellipse cx="81" cy="66" rx="6" ry="9" fill="#fff" opacity=".7" transform="rotate(20 81 66)"/>
+  </symbol>
+</svg>
+
+<div id="fx" aria-hidden="true"></div>
+<div class="bunting" aria-hidden="true"><svg id="bunting" xmlns="http://www.w3.org/2000/svg"></svg></div>
+
+<main class="page" lang="ar">
+
+  <section class="hero">
+    <p class="eyebrow">بسم الله ما شاء الله</p>
+    <div class="hero-art">
+      <svg class="cluster cl-l" aria-hidden="true"><use href="#cluster"/></svg>
+      <svg class="cluster cl-r" aria-hidden="true"><use href="#cluster"/></svg>
+      <h1 class="sr-only">آيسل</h1>
+      <img src="img/combo.webp" alt="آيسل، طفلة صغيرة بشعر بني وفيونكة وردي، قاعدة على سحابة بين القلوب" width="760" height="879">
+    </div>
+    <p class="hero-sub">أهلاً بيكي في الدنيا يا قمر ماما وبابا</p>
+  </section>
+
+  <section class="nb" aria-labelledby="nbTitle">
+    <h2 class="sec-title" id="nbTitle">دفتر آيسل</h2>
+    <div class="book" id="book" data-state="open">
+      <div class="paper">
+        <span class="tape" aria-hidden="true"></span>
+        <div class="paper-head">
+          <div>
+            <h3>بطاقة التعريف</h3>
+            <p>أول صفحة في حكاية آيسل</p>
+          </div>
+          <div class="sticker" role="img" aria-label="وجه آيسل"></div>
+        </div>
+        <dl class="rows" style="margin-bottom:0">
+          <div class="row" style="--i:0"><dt>اسم المولودة</dt><dd class="big">آيسل</dd></div>
+          <div class="row" style="--i:1"><dt>اسم الوالد</dt><dd>محمد سمير</dd></div>
+          <div class="row" style="--i:2"><dt>اسم الوالدة</dt><dd>عبير ابراهيم</dd></div>
+          <div class="row" style="--i:3"><dt>تاريخ الميلاد</dt><dd class="soon" id="nbDate">قريباً</dd></div>
+          <div class="row" style="--i:4"><dt>النوع</dt><dd>أنثى</dd></div>
+          <div class="row" style="--i:5"><dt>الموقع</dt><dd>مصر</dd></div>
+          <div class="row" style="--i:6"><dt>الديانة</dt><dd>مسلمة</dd></div>
+        </dl>
+      </div>
+      <button class="cover" id="cover" type="button" aria-label="افتح دفتر آيسل">
+        <span class="cover-label">
+          <small>دفتر مولودتنا الجميلة</small>
+          <img src="img/name.webp" alt="" width="520" height="286">
+        </span>
+        <span class="cover-hint">اضغط وافتح الدفتر</span>
+      </button>
+      <div class="rings" id="rings" aria-hidden="true"></div>
+    </div>
+    <button class="pill" id="toggleBook" type="button">اقفل الدفتر</button>
+  </section>
+
+  <section class="born" aria-labelledby="bornTitle">
+    <p class="eyebrow" id="bornTitle">اليوم اللي اتولدت فيه آيسل</p>
+    <p class="born-date soon" id="bornDate">قريباً إن شاء الله</p>
+
+    <div class="counter" role="timer" aria-label="عداد عمر آيسل">
+      <p class="counter-title">عمر آيسل</p>
+      <ul class="ticks">
+        <li class="tick" style="--t:var(--blush)"><b id="cD">٠٠</b><span>يوم</span></li>
+        <li class="tick" style="--t:var(--butter)"><b id="cH">٠٠</b><span>ساعة</span></li>
+        <li class="tick" style="--t:var(--mint)"><b id="cM">٠٠</b><span>دقيقة</span></li>
+        <li class="tick" id="tS" style="--t:var(--lilac)"><b id="cS">٠٠</b><span>ثانية</span></li>
+      </ul>
+      <p class="counter-total" id="counterTotal" hidden></p>
+      <p class="counter-note" id="counterNote">العدّاد هيبدأ يعدّ أول ما آيسل تتولد بالسلامة إن شاء الله.</p>
+    </div>
+
+    <details class="setbirth">
+      <summary>ضبط وقت الميلاد</summary>
+      <div class="setbirth-body">
+        <label class="sr-only" for="birthInput">تاريخ ووقت ميلاد آيسل</label>
+        <input type="datetime-local" id="birthInput">
+        <button class="pill" id="saveBirth" type="button">حفظ</button>
+        <button class="pill" id="clearBirth" type="button">مسح</button>
+      </div>
+    </details>
+  </section>
+
+  <section class="duas" aria-labelledby="duaTitle">
+    <h2 class="sec-title" id="duaTitle">ربنا يحفظها ويخليها لأهلها</h2>
+    <ul class="dua-list">
+      <li class="dua" style="--c:var(--blush)">اللهم احفظ آيسل بعينك التي لا تنام، واكلأها برعايتك.</li>
+      <li class="dua" style="--c:var(--lilac)">اللهم اجعلها قرة عين لأمها وأبيها، وبارك لهما فيها.</li>
+      <li class="dua" style="--c:var(--butter)">اللهم أنبتها نباتاً حسناً، وارزقها الصحة والعافية والعقل الراجح.</li>
+      <li class="dua" style="--c:var(--mint)">اللهم اجعلها من الصالحات القانتات، وأسعد بها أهلها في الدنيا والآخرة.</li>
+      <li class="dua" style="--c:var(--sky)">أعيذها بكلمات الله التامة من كل شيطان وهامة، ومن كل عين لامة.</li>
+    </ul>
+    <p class="amen">آمين يا رب العالمين</p>
+  </section>
+
+  <section class="album" aria-label="ألبوم الصور">
+    <button class="album-btn" id="albumBtn" type="button" aria-haspopup="dialog">
+      <span class="frames" aria-hidden="true"><i class="fr f1"></i><i class="fr f2"></i><i class="fr f3"></i></span>
+      <span><b>ألبوم الصور</b><small>اضغط وشوف صور آيسل</small></span>
+    </button>
+  </section>
+
+  <footer class="foot">
+    <b>اللهم بارك فيها</b><br>
+    مع حب ماما عبير وبابا محمد
+  </footer>
+</main>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="x" id="closeModal" type="button" aria-label="إغلاق">×</button>
+    <h3 id="modalTitle">ألبوم الصور</h3>
+    <div class="polas" aria-hidden="true">
+      <div class="pola"><i style="--c:var(--blush)"><svg><use href="#heart"/></svg></i><span>آيسل وماما</span></div>
+      <div class="pola"><i style="--c:var(--lilac)"><svg><use href="#heart"/></svg></i><span>آيسل وبابا</span></div>
+      <div class="pola"><i style="--c:var(--butter)"><svg><use href="#heart"/></svg></i><span>العيلة كلها</span></div>
+    </div>
+    <p>الألبوم لسه فاضي. أول صور آيسل هتتحط هنا لما تتولد وتتصور مع ماما وبابا إن شاء الله.</p>
+    <p>استنونا، الحلو جاي قريب.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  // وقت الميلاد: اكتبه هنا بالشكل ده بعد الولادة، مثال: "2026-12-01T09:30:00+02:00"
+  var BIRTH_ISO = "";
+  var KEY = "aisel-birth";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* balloons + confetti */
+  var fx = document.getElementById("fx");
+  var cols = ["#ff9cc6", "#c8b2ff", "#9fd0ff", "#ffe08a", "#9be3c7", "#ffb3cf"];
+  var html = "";
+  for (var i = 0; i < 14; i++) {
+    var s = 44 + ((i * 17) % 34);
+    html += '<i class="balloon" style="--x:' + ((i * 71) % 94) + '%;--s:' + s + 'px;--c:' + cols[i % 6] +
+      ';--d:' + (17 + ((i * 5) % 12)) + 's;--delay:-' + ((i * 3.7) % 20).toFixed(1) + 's;--top:' + (8 + (i * 53) % 78) + '%"></i>';
+  }
+  for (var j = 0; j < 22; j++) {
+    html += '<i class="confetti" style="--x:' + ((j * 47) % 98) + '%;--c:' + cols[(j + 2) % 6] +
+      ';--d:' + (9 + ((j * 3) % 9)) + 's;--delay:-' + ((j * 2.3) % 14).toFixed(1) + 's;--top:' + (6 + (j * 41) % 88) + '%"></i>';
+  }
+  fx.innerHTML = html;
+
+  /* bunting garland, drawn to the real width */
+  var bsvg = document.getElementById("bunting");
+  var flagCols = ["#ff9cc6", "#fff1b5", "#c9f1e1", "#e4d6ff", "#d7e8ff", "#ffd3e6"];
+  function drawBunting() {
+    var w = document.documentElement.clientWidth, h = 110;
+    var x0 = -10, y0 = 4, x1 = w + 10, y1 = 4, cx = w / 2, cy = 4 + 2 * Math.min(40, w * 0.07);
+    var n = Math.max(7, Math.round(w / 44)), out = "";
+    out += '<path d="M' + x0 + ' ' + y0 + ' Q' + cx + ' ' + cy + ' ' + x1 + ' ' + y1 + '" fill="none" stroke="#c98aa9" stroke-width="2"/>';
+    for (var k = 0; k < n; k++) {
+      var t = (k + 0.5) / n, mt = 1 - t;
+      var px = mt * mt * x0 + 2 * mt * t * cx + t * t * x1;
+      var py = mt * mt * y0 + 2 * mt * t * cy + t * t * y1;
+      var dx = 2 * mt * (cx - x0) + 2 * t * (x1 - cx), dy = 2 * mt * (cy - y0) + 2 * t * (y1 - cy);
+      var len = Math.sqrt(dx * dx + dy * dy), ux = dx / len, uy = dy / len, nx = -uy, ny = ux;
+      var ax = px - ux * 15, ay = py - uy * 15, bx = px + ux * 15, by = py + uy * 15;
+      var tx = px + nx * 36, ty = py + ny * 36;
+      out += '<path d="M' + ax.toFixed(1) + ' ' + ay.toFixed(1) + ' L' + bx.toFixed(1) + ' ' + by.toFixed(1) + ' L' + tx.toFixed(1) + ' ' + ty.toFixed(1) + 'Z" fill="' + flagCols[k % 6] + '" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>';
+    }
+    bsvg.setAttribute("viewBox", "0 0 " + w + " " + h);
+    bsvg.setAttribute("width", w);
+    bsvg.setAttribute("height", h);
+    bsvg.innerHTML = out;
+  }
+  drawBunting();
+  var rt;
+  window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(drawBunting, 150); });
+
+  /* notebook rings */
+  var rings = document.getElementById("rings"), rh = "";
+  for (var r = 0; r < 9; r++) rh += '<i class="ring"></i>';
+  rings.innerHTML = rh;
+
+  /* notebook open / close */
+  var book = document.getElementById("book");
+  var cover = document.getElementById("cover");
+  var toggle = document.getElementById("toggleBook");
+  function setState(s) {
+    book.dataset.state = s;
+    toggle.textContent = s === "open" ? "اقفل الدفتر" : "افتح الدفتر";
+    cover.setAttribute("aria-expanded", s === "open" ? "true" : "false");
+  }
+  if (!reduce) {
+    setState("closed");
+    setTimeout(function () { setState("open"); }, 900);
+  } else {
+    setState("open");
+  }
+  cover.addEventListener("click", function () { setState("open"); });
+  toggle.addEventListener("click", function () { setState(book.dataset.state === "open" ? "closed" : "open"); });
+
+  /* birth date + counter */
+  var nf = new Intl.NumberFormat("ar-EG", { minimumIntegerDigits: 2, useGrouping: false });
+  var nf1 = new Intl.NumberFormat("ar-EG", { useGrouping: false });
+  var dfLong = new Intl.DateTimeFormat("ar-EG", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Cairo" });
+  var dfTime = new Intl.DateTimeFormat("ar-EG", { hour: "numeric", minute: "2-digit", timeZone: "Africa/Cairo" });
+  var dfShort = new Intl.DateTimeFormat("ar-EG", { day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Cairo" });
+
+  var birth = null;
+  function load() {
+    var v = BIRTH_ISO;
+    if (!v) { try { v = localStorage.getItem(KEY) || ""; } catch (e) { v = ""; } }
+    var d = v ? new Date(v) : null;
+    birth = d && !isNaN(d.getTime()) ? d : null;
+  }
+  var el = {
+    d: document.getElementById("cD"), h: document.getElementById("cH"), m: document.getElementById("cM"), s: document.getElementById("cS"),
+    tS: document.getElementById("tS"), note: document.getElementById("counterNote"), total: document.getElementById("counterTotal"),
+    date: document.getElementById("bornDate"), nbDate: document.getElementById("nbDate"), input: document.getElementById("birthInput")
+  };
+  var lastS = -1;
+  function render() {
+    var now = Date.now();
+    if (!birth || birth.getTime() > now) {
+      el.d.textContent = el.h.textContent = el.m.textContent = el.s.textContent = nf.format(0);
+      el.date.textContent = "قريباً إن شاء الله"; el.date.classList.add("soon");
+      el.nbDate.textContent = "قريباً"; el.nbDate.classList.add("soon");
+      el.note.textContent = "العدّاد هيبدأ يعدّ أول ما آيسل تتولد بالسلامة إن شاء الله.";
+      el.total.hidden = true;
+      return;
+    }
+    var diff = Math.floor((now - birth.getTime()) / 1000);
+    var d = Math.floor(diff / 86400), h = Math.floor(diff % 86400 / 3600), m = Math.floor(diff % 3600 / 60), s = diff % 60;
+    el.d.textContent = d < 100 ? nf.format(d) : nf1.format(d);
+    el.h.textContent = nf.format(h); el.m.textContent = nf.format(m); el.s.textContent = nf.format(s);
+    if (s !== lastS) { lastS = s; el.tS.classList.remove("pop"); void el.tS.offsetWidth; el.tS.classList.add("pop"); }
+    el.date.textContent = dfLong.format(birth) + " الساعة " + dfTime.format(birth);
+    el.date.classList.remove("soon");
+    el.nbDate.textContent = dfShort.format(birth); el.nbDate.classList.remove("soon");
+    el.total.hidden = false;
+    el.total.textContent = "يعني " + nf1.format(Math.floor(diff / 3600)) + " ساعة من الحب والفرحة";
+    el.note.textContent = "ربنا يبارك في عمرها ويفرّح بيها أهلها.";
+  }
+  load(); render();
+  setInterval(render, 1000);
+
+  document.getElementById("saveBirth").addEventListener("click", function () {
+    if (!el.input.value) return;
+    try { localStorage.setItem(KEY, el.input.value); } catch (e) {}
+    BIRTH_ISO = el.input.value; load(); render();
+  });
+  document.getElementById("clearBirth").addEventListener("click", function () {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    BIRTH_ISO = ""; el.input.value = ""; load(); render();
+  });
+
+  /* album dialog */
+  var modal = document.getElementById("modal");
+  var openBtn = document.getElementById("albumBtn");
+  var closeBtn = document.getElementById("closeModal");
+  function openModal() { modal.hidden = false; closeBtn.focus(); }
+  function closeModal() { modal.hidden = true; openBtn.focus(); }
+  openBtn.addEventListener("click", openModal);
+  closeBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !modal.hidden) closeModal(); });
+})();
+</script>
+
+</body></html>
